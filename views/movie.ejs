@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix : Homepage</title>
+    <style>
+     *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100%;
+    position: relative;
+    background: #181818;
+    font-family: 'roboto', sans-serif;
+}
+
+.navbar{
+    width: 100%;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    z-index: 9;
+    background: #000;
+    padding: 0 2.5vw;
+    display: flex;
+    align-items: center;
+}
+
+.logo{
+    width: 140px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(40% , -50%);
+}
+
+.join-box{
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    margin-left: auto;
+}
+
+.join-msg{
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.btn{
+    border: 1px solid #fff;
+    border-radius: 2px;
+    background: none;
+    color: #fff;
+    height: 35px;
+    padding: 0 10px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.join-btn{
+    background: #dd0e15;
+    border-color: #dd0e15;
+}
+
+.main{
+    position: relative;
+    margin-top: 60px;
+    width: 100%;
+    padding: 40px 2.5vw;
+    color: #fff;
+}
+
+.heading{
+    text-transform: capitalize;
+    font-weight: 900;
+    font-size: 50px;
+}
+
+.info{
+    width: 50%;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.movie-list{
+    width: 100%;
+    height: 250px;
+    margin-top: 40px;
+    position: relative;
+}
+
+.movie-category{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+}
+
+.movie-container{
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+.movie-container::-webkit-scrollbar{
+    display: none;
+}
+
+.movie{
+    flex: 0 0 auto;
+    width: 24%;
+    height: 200px;
+    text-align: center;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.movie img{
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+}
+
+.movie p{
+    text-transform: capitalize;
+    height: 20px;
+    overflow: hidden;
+}
+
+.pre-btn,
+.nxt-btn{
+    position: absolute;
+    height: 200px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5vw;
+    background: #181818;
+    border: none;
+    outline: none;
+    opacity: 0;
+}
+
+.pre-btn{
+    left: -2.5vw;
+}
+
+.nxt-btn{
+    right: -2.5vw;
+}
+
+.pre-btn img,
+.nxt-btn img{
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.nxt-btn:hover,
+.pre-btn:hover{
+    opacity: 1;
+}
+
+    </style>
+
+</head>
+<body>
+
+    <!-- navbar -->
+    <nav class="navbar">
+        <a href="/"><img src="https://github.com/kunaal438/netflix-clone-2.0/blob/master/public/img/logo.png?raw=true" class="logo" alt=""></a>
+        <div class="join-box">
+            <p class="join-msg">unlimited tv shows & movies</p>
+            <button class="btn join-btn">join now</button>
+            <button class="btn">sign in</button>
+        </div>
+    </nav>
+
+    <!-- main section -->
+    <header class="main">
+        <h1 class="heading">movies</h1>
+        <p class="info">Movies move us like nothing else can, whether they're scary, funny, dramatic, romantic or anywhere in-between. So many titles, so much to experience.</p>
+        
+    </header>    
+
+<script>
+let api_key = "4ea73eb40c80486612f28b42c15366b1";
+
+let img_url = "https://image.tmdb.org/t/p/w500";
+let original_img_url = "https://image.tmdb.org/t/p/original";
+let genres_list_http = "https://api.themoviedb.org/3/genre/movie/list?";
+let movie_genres_http = "https://api.themoviedb.org/3/discover/movie?";
+let movie_detail_http = "https://api.themoviedb.org/3/movie";
+
+const main = document.querySelector('.main');
+fetch(genres_list_http + new URLSearchParams({
+    api_key: api_key
+}))
+.then(res => res.json())
+.then(data => {
+    data.genres.forEach(item => {
+        fetchMoviesListByGenres(item.id, item.name);
+    })
+});
+
+const fetchMoviesListByGenres = (id, genres) => {
+    fetch(movie_genres_http + new URLSearchParams({
+        api_key: api_key,
+        with_genres: id,
+        page: Math.floor(Math.random() * 3) + 1
+    }))
+    .then(res => res.json())
+    .then(data => {
+        makeCategoryElement(`${genres}_movies`, data.results);
+    })
+    .catch(err =>  console.log(err));
+}
+
+const makeCategoryElement = (category, data) => {
+    main.innerHTML += `
+    <div class="movie-list">
+
+        <button class="pre-btn"><img src="https://github.com/kunaal438/netflix-clone-2.0/blob/master/public/img/pre.png?raw=true" alt=""></button>
+
+        <h1 class="movie-category">${category.split("_").join(" ")}</h1>
+
+        <div class="movie-container" id="${category}">
+
+        </div>
+
+        <button class="nxt-btn"><img src="https://github.com/kunaal438/netflix-clone-2.0/blob/master/public/img/nxt.png?raw=true" alt=""></button>
+
+    </div>
+    `;
+    makeCards(category, data);
+}
+
+const makeCards = (id, data) => {
+    const movieContainer = document.getElementById(id);
+    data.forEach((item, i) => {
+        if(item.backdrop_path == null){
+            item.backdrop_path = item.poster_path;
+            if(item.backdrop_path == null){
+                return;
+            }
+        }
+
+        movieContainer.innerHTML += `
+        <div class="movie" onclick="location.href = '${item.id}'">
+            <img src="${img_url}${item.backdrop_path}" alt="">
+            <p class="movie-title">${item.title}</p>
+        </div>
+        `;
+
+        if(i == data.length - 1){
+            setTimeout(() => {
+                setupScrolling();
+            }, 100);
+        }
+    })
+}
+
+const setupScrolling = () => {
+    const conainter = [...document.querySelectorAll('.movie-container')];
+    const nxtBtn = [...document.querySelectorAll('.nxt-btn')];
+    const preBtn = [...document.querySelectorAll('.pre-btn')];
+
+    conainter.forEach((item, i) => {
+        let containerDimensions = item.getBoundingClientRect();
+        let containerWidth = containerDimensions.width;
+
+        nxtBtn[i].addEventListener('click', () => {
+            item.scrollLeft += containerWidth;
+        })
+
+        preBtn[i].addEventListener('click', () => {
+            item.scrollLeft -= containerWidth;
+        })
+    })
+}
+</script>        
+</body>
+</html>

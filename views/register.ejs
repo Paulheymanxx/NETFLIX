@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Register</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+
+   <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
+
+:root{
+   --main-color:#DA2C32;
+   --light-color:#666;
+   --light-bg:#eee;
+   --white:#fff;
+   --black:#303030;
+   --border:.1rem solid var(--light-color);
+   --box-shodow:0 .5rem 1rem rgba(0,0,0,.1);
+}
+
+*{
+   font-family: 'Montserrat', sans-serif;
+   margin: 0; padding: 0;
+   box-sizing: border-box;
+   outline: none; border: none;
+   text-decoration: none;
+}
+
+*::selection{
+   background-color: var(--main-color);
+   color: var(--white);
+}
+
+*::-webkit-scrollbar{
+   height: .5rem;
+   width: 1rem;
+}
+
+*::-webkit-scrollbar-track{
+   background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb{
+   background-color: var(--main-color);
+   border-radius: 5rem;
+}
+:root{
+    --primary-color: #e50914;
+   
+}
+html{
+   font-size: 62.5%;
+   overflow-x: hidden;
+   scroll-behavior: smooth;
+   scroll-padding-top: 10rem;
+}
+
+body{
+   background-color: black;
+}
+.btn{
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 0.5rem;
+    outline: none;
+    box-shadow: 0 5px 3px rgba(0, 0, 0, 0.45);
+}
+
+.btn:hover{
+    opacity: 0.9;
+}
+
+.btn-rounded{
+    border-radius: 5px;
+}
+section{
+   padding: 3rem 2rem;
+   max-width: 1200px;
+   margin: 0 auto;
+   margin-left: 30%;
+}
+
+.heading{
+   text-align: center;
+   padding-bottom: 2.5rem;
+   font-size: 3rem;
+   color: var(--black);
+   text-transform: capitalize;
+  
+}
+
+
+
+
+
+.form-container form{
+   max-width: 50rem;
+   margin: 0 auto;
+   background-color: var(--white);
+   box-shadow: var(--box-shodow);
+   padding: 2rem;
+   text-align: center;
+}
+
+.form-container form h3{
+   padding-bottom: 1rem;
+   font-size: 2.5rem;
+   color: var(--black);
+   text-transform: capitalize;
+}
+
+.form-container form .box{
+   border: var(--border);
+   padding: 1.4rem;
+   color: var(--black);
+   margin: 1rem 0;
+   width: 100%;
+   font-size: 1.8rem;
+}
+
+.form-container form p{
+   font-size: 1.7rem;
+   padding: 1rem 0;
+   color: var(--light-color);
+}
+
+.form-container form p a{
+   color: var(--main-color);
+}
+
+.form-container form p a:hover{
+   text-decoration: underline;
+}
+
+
+.showcase{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background: url("https://github.com/techiecoder2079/Netflix-Clone/blob/main/1.jpg?raw=true") no-repeat center center/cover;
+}
+.showcase::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 120px 100px 250px #000000 , inset -120px -100px 250px #000000;
+}
+
+.showcase-top{
+    position: relative;
+    z-index: 2;
+    height: 90px;
+}
+.showcase-top .nav{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-60% , -50%);
+}
+
+.showcase-top img{
+    width: 140px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(40% , -50%);
+}
+
+
+
+.footer{
+    max-width: 70%;
+    margin: 1rem auto;
+    overflow: auto;
+}
+
+.footer ,
+.footer a{
+    color: #999999;
+    font-size: 0.9rem;
+}
+
+.footer p{
+    margin-bottom: 1.5rem;
+}
+
+.footer .footer-cols{
+    display: grid;
+    grid-template-columns: repeat(4 , 1fr);
+    grid-gap: 2rem;
+}
+
+.footer li{
+    line-height: 2.4;
+}
+
+
+
+
+</style>
+</head>
+<body>
+   
+<!-- header section starts  -->
+
+<header class="showcase">
+   <div class="showcase-top">
+       <a href="/"><img src="https://github.com/techiecoder2079/Netflix-Clone/blob/main/logo.png?raw=true" alt="Netflix Logo"></a>
+       <a class="nav" href="/login" style=" display: inline-block;
+       background: var(--primary-color);
+       color: white;
+       padding: 0.5rem 1.2rem;
+       font-size: 1rem;
+       text-align: center;
+       border: none;
+       cursor: pointer;
+       border-radius: 2px;
+       margin-right: 0.5rem;
+       outline: none;
+       box-shadow: 0 5px 3px rgba(0, 0, 0, 0.45)" class="btn btn-rounded">Login</a>
+       
+       <section class="form-container" style="position: absolute;">
+
+         <form action="/register" method="POST" style="background-color:black;">
+            <h3>Register your account!</h3>
+            <input type="text" name="username" required maxlength="50" placeholder="enter your name" class="box">
+            <input type="email" name="email" required maxlength="50" placeholder="enter your email" class="box">
+            <input type="password" name="password" required maxlength="20" placeholder="enter your password" class="box">
+             <p>Already have an account? <a href="/login">Login</a></p>
+            <input style="background-color: var(--main-color);" type="submit" value="Register" name="submit" class="btn">
+         </form>
+      
+      </section>
+   </div>
+</header>
+
+
+<!-- header section ends -->
+
+<!-- register section starts  -->
+
+
+
+<!-- register section ends -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- footer section starts  -->
+
+<footer class="footer">
+   <p>Questions? Call 000-800-040-1843</p>
+   <div class="footer-cols">
+       <ul>
+           <li><a href="#">FAQ</a></li>
+           <li><a href="#">Investor Relations</a></li>
+           <li><a href="#">Privacy</a></li>
+           <li><a href="#">Speed Test</a></li>
+       </ul>
+       <ul>
+           <li><a href="#">Help Centre</a></li>
+           <li><a href="#">Jobs</a></li>
+           <li><a href="#">Cookie Preferences</a></li>
+           <li><a href="#">Watch for Free</a></li>
+       </ul>
+       <ul>
+           <li><a href="#">Account</a></li>
+           <li><a href="#">Ways to Watch</a></li>
+           <li><a href="#">Corporate Information</a></li>
+           <li><a href="#">Legal Notices</a></li>
+       </ul>
+       <ul>
+           <li><a href="#">Media Centre</a></li>
+           <li><a href="#">Terms of Use</a></li>
+           <li><a href="#">Contact Us</a></li>
+           <li><a href="#">Netflix Originals</a></li>
+       </ul>
+   </div>
+</footer>
+
+<!-- footer section ends -->
+
+
+<!-- custom js file link  -->
+
+
+</body>
+</html>

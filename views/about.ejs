@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix : </title>
+
+    <style>
+body{
+    width: 100%;
+    position: relative;
+    background: #181818;
+    font-family: 'roboto', sans-serif;
+}
+
+.navbar{
+    width: 100%;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    z-index: 9;
+    background: #000;
+    padding: 0 2.5vw;
+    display: flex;
+    align-items: center;
+}
+
+.logo{
+    width: 140px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(40% , -50%);
+}
+
+.join-box{
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    margin-left: auto;
+}
+
+.join-msg{
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.btn{
+    border: 1px solid #fff;
+    border-radius: 2px;
+    background: none;
+    color: #fff;
+    height: 35px;
+    padding: 0 10px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.join-btn{
+    background: #dd0e15;
+    border-color: #dd0e15;
+}
+
+
+        .movie-info{
+    width: 100%;
+    height: calc(100vh - 60px);
+    margin-top: 60px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.movie-detail{
+    width: 50%;
+    height: 100%;
+    background: rgb(24, 24, 24);
+    background: linear-gradient(90deg, rgba(24, 24, 24, 1), rgba(24, 24, 24, 0) 100%);
+    padding: 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+}
+
+.movie-name{
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.genres{
+    opacity: 0.6;
+    margin: 30px 0;
+}
+
+.des{
+    width: 70%;
+    line-height: 20px;
+    margin-bottom: 30px;
+}
+
+.starring span{
+    opacity: 0.6;
+}
+
+.trailer-container,
+.recommendations{
+    color: #fff;
+    padding: 5vw 5vw 0;
+}
+
+.heading{
+    font-size: 30px;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+iframe{
+    width: 400px;
+    height: 200px;
+}
+
+.recommendations-container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.movie p{
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    opacity: 0;
+}
+
+.movie:hover p{
+    opacity: 1;
+}
+    </style>
+</head>
+<body>
+
+    <!-- navbar -->
+    <nav class="navbar">
+        <a href="/"><img src="https://github.com/kunaal438/netflix-clone-2.0/blob/master/public/img/logo.png?raw=true" class="logo" alt=""></a>
+        <div class="join-box">
+            <p class="join-msg">unlimited tv shows & movies</p>
+            <button class="btn join-btn">join now</button>
+            <button class="btn">sign in</button>
+        </div>
+    </nav>
+
+    <!-- movie info -->
+    <div class="movie-info">
+        <div class="movie-detail">
+            <h1 class="movie-name"></h1>
+            <p class="genres"></p>
+            <p class="des"></p>
+            <p class="starring"><span>Starring:</span></p>
+        </div>
+    </div>
+
+    <!-- video clips -->
+    <div class="trailer-container">
+        <h1 class="heading">Video Clip</h1>
+        <!-- <iframe src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+    </div>
+
+    
+
+ <script>
+    let movie_id = location.pathname;
+    let movie_detail_http = "https://api.themoviedb.org/3/movie";
+    let api_key = "4ea73eb40c80486612f28b42c15366b1";
+    let original_img_url = "https://image.tmdb.org/t/p/original";
+
+// fetching movie details
+fetch(`${movie_detail_http}${movie_id}?` + new URLSearchParams({
+    api_key: api_key
+}))
+.then(res => res.json())
+.then(data => {
+    setupMovieInfo(data);
+})
+
+const setupMovieInfo = (data) => {
+    const movieName = document.querySelector('.movie-name');
+    const genres = document.querySelector('.genres');
+    const des = document.querySelector('.des');
+    const title = document.querySelector('title');
+    const backdrop = document.querySelector('.movie-info');
+
+    title.innerHTML = movieName.innerHTML = data.title; 
+    genres.innerHTML = `${data.release_date.split('-')[0]} | `;
+    for(let i = 0; i < data.genres.length; i++){
+        genres.innerHTML += data.genres[i].name + formatString(i, data.genres.length);
+    }
+
+    if(data.adult == true){
+        genres.innerHTML += ' | +18';
+    }
+
+    if(data.backdrop_path == null){
+        data.backdrop_path = data.poster_path;
+    }
+
+    des.innerHTML = data.overview.substring(0, 200) + '...';
+
+    backdrop.style.backgroundImage = `url(${original_img_url}${data.backdrop_path})`;
+}
+
+const formatString = (currentIndex, maxIndex) => {
+    return (currentIndex == maxIndex - 1) ? '' : ', ';
+}
+
+//fetching cast info
+
+fetch(`${movie_detail_http}${movie_id}/credits?` + new URLSearchParams({
+    api_key: api_key
+}))
+.then(res => res.json())
+.then(data => {
+    const cast = document.querySelector('.starring');
+    for(let i = 0; i < 5; i++){
+        cast.innerHTML += data.cast[i].name + formatString(i, 5);
+    }
+})
+
+// fetching video clips
+
+fetch(`${movie_detail_http}${movie_id}/videos?` + new URLSearchParams({
+    api_key: api_key
+}))
+.then(res => res.json())
+.then(data => {
+    let trailerContainer = document.querySelector('.trailer-container');
+
+    let maxClips = (data.results.length > 4) ? 4 : data.results.length;
+
+    for(let i = 0; i < maxClips; i++){
+        trailerContainer.innerHTML += `
+        <iframe src="https://youtube.com/embed/${data.results[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        `;
+    }
+})
+
+// fetch recommendations
+
+fetch(`${movie_detail_http}/movies/${movie_id}/recommendations?` + new URLSearchParams({
+    api_key: api_key
+}))
+.then(res => res.json())
+.then(data => {
+    let container = document.querySelector('.recommendations-container');
+    for(let i = 0; i < 16; i++){
+        if(data.results[i].backdrop_path == null){
+            i++;
+        }
+        container.innerHTML += `
+        <div class="movie" onclick="location.href = '/${data.results[i].id}'">
+            <img src="${img_url}${data.results[i].backdrop_path}" alt="">
+            <p class="movie-title">${data.results[i].title}</p>
+        </div>
+        `;
+    }
+})
+ </script>   
+    
+</body>
+</html>
