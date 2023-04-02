@@ -8,7 +8,6 @@ var express = require("express"),
    bcrypt = require("bcryptjs"),
      flash        = require("connect-flash"),
     User      = require("./models/user"),
-    JWT = require("jsonwebtoken"),
     session = require("express-session"),
     methodOverride = require("method-override");
 
@@ -40,7 +39,7 @@ app.get("/", function(req, res){
 	res.render("index")
 });
 
-app.get("/movies", CheckAuth,  function(req, res){
+app.get("/movies",  function(req, res){
 	res.render("movie")
 });
 
